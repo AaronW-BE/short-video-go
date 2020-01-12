@@ -11,9 +11,9 @@ func InitApi(api *gin.RouterGroup) {
 
 	vsg := api.Group("/videos")
 	{
-		vsg.GET("/recommend")     // 推荐视频
-		vsg.GET("/following")     // 关注人视频
-		vsg.POST("/publish", nil) // 发布视频
+		vsg.GET("/recommend", VideoList)      // 推荐视频
+		vsg.GET("/following", FollowingVideo) // 关注人视频
+		vsg.POST("/publish", PublishVideo)    // 发布视频
 	}
 
 	vg := api.Group("/video", middlewares.AuthMiddleware())
