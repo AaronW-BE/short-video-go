@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bytes"
+	"log"
 	"os/exec"
 )
 
@@ -30,6 +31,6 @@ func init() {
 	// 检查环境变量是否有ffmpeg
 	path, err := exec.LookPath("ffmpeg")
 	if err != nil || path == "" {
-		panic("ffmpeg module is not exist for current system")
+		log.Println("ffmpeg module is not exist for current system")
 	}
 }
