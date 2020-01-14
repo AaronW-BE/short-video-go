@@ -1,35 +1,44 @@
 package controllers
 
 import (
+	"MiniVideo/models"
 	"MiniVideo/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
 func CommonLogin(context *gin.Context) {
 	name := context.PostForm("username")
 	pwd := context.PostForm("password")
-	if name == "aaronwb" && pwd == "123456" {
 
-		//store token cache
-		utils.Cache.Set("token", name+pwd, time.Hour)
-
-		context.JSON(http.StatusOK, gin.H{
-			"api_name": "common login",
-			"data": gin.H{
-				"token": name + pwd,
-			},
-		})
+	encryptedPwd, err := utils.EncryptStringToPassword(pwd)
+	if err != nil {
+		utils.Response500(context, "")
 		return
 	}
-	context.JSON(http.StatusForbidden, gin.H{
-		"api_name": "common login",
-		"message":  "login failed, invalid username or password",
-		"data":     gin.H{},
+	user := &models.User{}
+	loginUser, err := user.FindOne(bson.M{
+		"username": name,
+		"password": encryptedPwd,
 	})
+	if err != nil {
+		utils.Response400(context, "账号或密码错误")
+		return
+	}
 
+	if loginUser.State == models.STATE_NORMAL {
+		// jwt生成token
+
+		utils.Response200(context, nil, "登录成功")
+		return
+	}
+	if loginUser.State == models.STATE_BLOCKED {
+		utils.Response401(context, "该用户已禁用，无法登录")
+		return
+	}
+	utils.Response401(context, "登录失败，原因未知")
 }
 
 /**

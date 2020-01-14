@@ -28,9 +28,16 @@ func (u *User) FindAll() (users []User) {
 	return
 }
 
+func (u *User) FindOne(selector interface{}) (user User, err error) {
+	u.Name = "users"
+	user, err = u.findOne(selector)
+	return
+}
+
 func (u *User) Create() (err error) {
 	u.Name = "users"
 	u.State = STATE_NORMAL
+	u.Register = time.Now()
 	err = u.create(u)
 	return
 }

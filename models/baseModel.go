@@ -32,9 +32,10 @@ func (model *BaseModel) findAll(docList interface{}) error {
 	return model.getCollection().Find(nil).All(docList)
 }
 
-func (model *BaseModel) findOne() {
+func (model *BaseModel) findOne(selector interface{}) (user User, err error) {
 	model.checkName()
-	log.Println(*model, "find one func")
+	err = model.getCollection().Find(selector).One(&user)
+	return
 }
 
 func (model *BaseModel) create(m interface{}) error {
