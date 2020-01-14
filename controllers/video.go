@@ -31,18 +31,7 @@ func PublishVideo(ctx *gin.Context) {
 }
 
 func VideoList(ctx *gin.Context) {
-	videos, err := services.List()
-	if err != nil {
-		ctx.JSON(500, gin.H{
-			"code": "obtain video list failed",
-		})
-		log.Println(err)
-		return
-	}
-	ctx.JSON(200, gin.H{
-		"code": 0,
-		"data": videos,
-	})
+
 }
 
 func FollowingVideo(ctx *gin.Context) {

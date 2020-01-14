@@ -1,7 +1,6 @@
 package services
 
 import (
-	"MiniVideo/database"
 	"MiniVideo/models"
 )
 
@@ -16,15 +15,5 @@ func (video *Video) Insert() (id int, err error) {
 		Description: video.Description,
 	}
 	id, err = v.Insert()
-	return
-}
-
-func List() (videos []models.Video, err error) {
-	videos = []models.Video{}
-	video := models.Video{
-		Id: "sdafds",
-	}
-	video.Find()
-	err = database.Mongo.DB("douyin").C("videos").Find(nil).All(&videos)
 	return
 }

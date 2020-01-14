@@ -1,19 +1,20 @@
-package controllers
+package router
 
 import (
+	"MiniVideo/controllers"
 	"MiniVideo/middlewares"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func InitApi(api *gin.RouterGroup) {
-	api.GET("/index", Index)
+	api.GET("/index", controllers.Index)
 
 	vsg := api.Group("/videos")
 	{
-		vsg.GET("/recommend", VideoList)      // 推荐视频
-		vsg.GET("/following", FollowingVideo) // 关注人视频
-		vsg.POST("/publish", PublishVideo)    // 发布视频
+		vsg.GET("/recommend", controllers.VideoList)      // 推荐视频
+		vsg.GET("/following", controllers.FollowingVideo) // 关注人视频
+		vsg.POST("/publish", controllers.PublishVideo)    // 发布视频
 	}
 
 	vg := api.Group("/video", middlewares.AuthMiddleware())
@@ -58,11 +59,13 @@ func InitApi(api *gin.RouterGroup) {
 
 	ag := api.Group("/auth")
 	{
-		ag.POST("/login/common", CommonLogin) // 通用登录
-		ag.POST("/login/phone", nil)          // 手机号登录
+		ag.POST("/login/common", controllers.CommonLogin) // 通用登录
+		ag.POST("/login/phone", nil)                      // 手机号登录
 
 		ag.POST("/register/common", nil) // 通用注册
 		ag.POST("/register/phone", nil)  // 通过手机号注册
+
+		ag.GET("/captcha", controllers.PhoneCaptcha)
 	}
 
 }
