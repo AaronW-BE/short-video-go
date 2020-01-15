@@ -1,6 +1,6 @@
 language: go
 script:
-  - go test -v ./...
+  - go run .
 notifications:
   email:
     recipients:
