@@ -9,6 +9,7 @@ func InitRoute() {
 
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/**/*")
+	router.StaticFile("/favicon.ico", "./resources/favicon.ico")
 
 	apiGroup := router.Group("/api", middlewares.Api())
 	webGroup := router.Group("/")

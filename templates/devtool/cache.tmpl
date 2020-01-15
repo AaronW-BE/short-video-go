@@ -1,0 +1,34 @@
+{{ define "devtool/cache.tmpl"}}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cache</title>
+</head>
+<body>
+    <h1>Devtool - Cache</h1>
+    <div>
+        共有 {{len .caches}} 个 cache
+    </div>
+    <div>
+        <table border="1">
+            <tr>
+                <td>Key</td>
+                <td>Value</td>
+                <td>Expiration</td>
+            </tr>
+        {{range $k, $v := .caches}}
+            <tr>
+                <td>{{$k}}</td>
+                <td>{{$v.Object}}</td>
+                <td>{{$v.Expiration}}</td>
+            </tr>
+        {{end}}
+        </table>
+    </div>
+</body>
+</html>
+
+{{end}}
