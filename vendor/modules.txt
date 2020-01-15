@@ -1,7 +1,7 @@
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+github.com/dgrijalva/jwt-go
 # github.com/gin-contrib/sse v0.1.0
 github.com/gin-contrib/sse
-# github.com/gin-gonic/autotls v0.0.0-20191129055149-ffaac874b99f
-github.com/gin-gonic/autotls
 # github.com/gin-gonic/gin v1.5.0
 github.com/gin-gonic/gin
 github.com/gin-gonic/gin/binding
@@ -28,9 +28,6 @@ github.com/modern-go/reflect2
 github.com/patrickmn/go-cache
 # github.com/ugorji/go/codec v1.1.7
 github.com/ugorji/go/codec
-# golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2
-golang.org/x/crypto/acme
-golang.org/x/crypto/acme/autocert
 # golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a
 golang.org/x/sys/unix
 # gopkg.in/go-playground/validator.v9 v9.29.1

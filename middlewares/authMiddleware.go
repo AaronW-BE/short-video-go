@@ -4,7 +4,6 @@ import (
 	"MiniVideo/utils"
 	"github.com/gin-gonic/gin"
 	"log"
-	"net/http"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -14,36 +13,32 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		authorization := context.GetHeader("Authorization")
 
-		log.Println("token:", authorization)
-
 		if authorization == "" {
-			context.JSON(http.StatusUnauthorized, gin.H{
-				"message": "权限不足,请求失败",
-			})
+			utils.Response401(context, "请求失败，需要登录")
 			return
 		}
 
 		// 查询 token
-		storeToken, err := utils.Cache.Get("token")
+		storeToken, err := utils.Cache.Get("token:" + authorization)
 
-		log.Println("stored token", storeToken)
-		if err {
-			context.JSON(http.StatusInternalServerError, nil)
+		if !err || storeToken == nil {
+			utils.Response500(context, "token无效")
 			return
 		}
 
-		if storeToken == nil {
-			context.JSON(http.StatusUnauthorized, nil)
+		// 解析token
+		jwtInstance := utils.NewJWT()
+		claims, err2 := jwtInstance.ParseToken(authorization)
+		if err2 != nil {
+			utils.Response401(context, "token无效，授权失败")
 			return
 		}
-
-		if storeToken == authorization {
-			// 解析用户
-			context.Set("user_id", "001")
+		if claims.ID == storeToken {
+			context.Set("claims", claims)
 			context.Next()
+			return
 		}
-
-		context.JSON(http.StatusUnauthorized, nil)
+		utils.Response401(context, "")
 		return
 	}
 }

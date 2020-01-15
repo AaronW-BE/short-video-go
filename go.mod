@@ -3,7 +3,8 @@ module MiniVideo
 go 1.13
 
 require (
-	github.com/gin-gonic/autotls v0.0.0-20191129055149-ffaac874b99f
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gin-gonic/autotls v0.0.0-20191129055149-ffaac874b99f // indirect
 	github.com/gin-gonic/gin v1.5.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22

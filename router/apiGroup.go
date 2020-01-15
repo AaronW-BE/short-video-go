@@ -3,12 +3,23 @@ package router
 import (
 	"MiniVideo/controllers"
 	"MiniVideo/middlewares"
+	"MiniVideo/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func InitApi(api *gin.RouterGroup) {
 	api.GET("/index", controllers.Index)
+
+	tg := api.Group("/test")
+	{
+		tg.GET("/token", middlewares.AuthMiddleware(), func(context *gin.Context) {
+			claims, _ := context.Get("claims")
+
+			claimsObj := claims.(*utils.CustomClaims)
+			context.String(http.StatusOK, "token test ok, login user id is %s", claimsObj.ID.String())
+		})
+	}
 
 	vsg := api.Group("/videos")
 	{

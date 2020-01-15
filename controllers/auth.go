@@ -30,8 +30,23 @@ func CommonLogin(context *gin.Context) {
 
 	if loginUser.State == models.STATE_NORMAL {
 		// jwt生成token
+		jwt := utils.NewJWT()
+		claims := utils.NewClaims(&utils.CustomClaims{
+			ID:    loginUser.Id,
+			Name:  loginUser.Name,
+			State: loginUser.State,
+		})
+		token, err := jwt.CreateToken(claims)
+		if err != nil {
+			utils.Response500(context, "生成token失败，请稍后再试")
+		}
 
-		utils.Response200(context, nil, "登录成功")
+		utils.Cache.Set("token:"+token, loginUser.Id, time.Hour*2)
+
+		utils.Response200(context, gin.H{
+			"token":      token,
+			"expired_at": claims.ExpiresAt,
+		}, "登录成功")
 		return
 	}
 	if loginUser.State == models.STATE_BLOCKED {

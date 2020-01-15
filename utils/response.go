@@ -3,6 +3,7 @@ package utils
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"net/http"
 )
 
 func Response(ctx *gin.Context, code int, data interface{}, msg string) {
@@ -24,15 +25,17 @@ func Response(ctx *gin.Context, code int, data interface{}, msg string) {
 }
 
 func Response404(ctx *gin.Context) {
-	Response(ctx, 200, nil, "request not found")
+	Response(ctx, http.StatusNotFound, nil, "request not found")
+	ctx.Abort()
 }
 
 func Response200(ctx *gin.Context, data interface{}, msg string) {
-	Response(ctx, 200, data, msg)
+	Response(ctx, http.StatusOK, data, msg)
 }
 
 func Response401(ctx *gin.Context, msg string) {
-	Response(ctx, 401, nil, msg)
+	Response(ctx, http.StatusUnauthorized, nil, msg)
+	ctx.Abort()
 }
 
 func Response400(ctx *gin.Context, msg string) {
@@ -40,7 +43,8 @@ func Response400(ctx *gin.Context, msg string) {
 		msg = "bad request"
 		log.Panicln("response an error...")
 	}
-	Response(ctx, 400, nil, msg)
+	Response(ctx, http.StatusBadRequest, nil, msg)
+	ctx.Abort()
 }
 
 func Response500(ctx *gin.Context, msg string) {
@@ -48,5 +52,6 @@ func Response500(ctx *gin.Context, msg string) {
 		msg = "Internal Server error"
 		log.Panicln("response an error...")
 	}
-	Response(ctx, 500, nil, msg)
+	Response(ctx, http.StatusInternalServerError, nil, msg)
+	ctx.Abort()
 }

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ .title }}</title>
+
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html,body {
             margin: 0;
