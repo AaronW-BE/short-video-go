@@ -56,6 +56,32 @@ func CommonLogin(context *gin.Context) {
 	utils.Response401(context, "登录失败，原因未知")
 }
 
+func CommonRegister(ctx *gin.Context) {
+	name := ctx.PostForm("username")
+	pwd := ctx.PostForm("password")
+	if len(name) < 6 || len(pwd) < 6 {
+		utils.Response400(ctx, "用户名或密码无效")
+		return
+	}
+
+	encryptPwd, err := utils.EncryptStringToPassword(pwd)
+	if err != nil {
+		utils.Response500(ctx, "")
+		return
+	}
+	user := &models.User{
+		Username: name,
+		Password: encryptPwd,
+	}
+	createErr := user.Create()
+	if createErr != nil {
+		utils.Response500(ctx, "创建用户失败")
+		return
+	}
+	utils.Response200(ctx, nil, "注册成功")
+
+}
+
 /**
 手机号登录
 参数：手机号，验证码，校验码

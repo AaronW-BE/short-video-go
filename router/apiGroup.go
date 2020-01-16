@@ -73,8 +73,8 @@ func InitApi(api *gin.RouterGroup) {
 		ag.POST("/login/common", controllers.CommonLogin) // 通用登录
 		ag.POST("/login/phone", nil)                      // 手机号登录
 
-		ag.POST("/register/common", nil) // 通用注册
-		ag.POST("/register/phone", nil)  // 通过手机号注册
+		ag.POST("/register/common", controllers.CommonRegister) // 通用注册
+		ag.POST("/register/phone", nil)                         // 通过手机号注册
 
 		ag.GET("/captcha", controllers.PhoneCaptcha)
 	}
