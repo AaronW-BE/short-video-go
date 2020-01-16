@@ -8,7 +8,6 @@ import (
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(context *gin.Context) {
-		println("")
 		log.Print("auth middleware processing...")
 
 		authorization := context.GetHeader("Authorization")

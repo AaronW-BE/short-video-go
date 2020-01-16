@@ -1,39 +1,29 @@
 package models
 
 import (
-	"MiniVideo/database"
-	"gopkg.in/mgo.v2"
+	types2 "MiniVideo/types"
+	"go/types"
 	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 type Video struct {
-	Id          bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
-	Title       string        `json:"title" form:"title" bson:"title"`
-	Description string        `json:"description" form:"description" bson:"description"`
-	Thumb       string        `json:"thumb" form:"thumb" bson:"thumb"`
+	Id           bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
+	OwnerId      bson.ObjectId `bson:"owner_id"` // 拥有者id
+	Title        string        `json:"title" form:"title" bson:"title"`
+	Description  string        `json:"description" form:"description" bson:"description"`
+	Thumb        string        `json:"thumb" form:"thumb" bson:"thumb"`
+	Likes        int           `bson:"likes"`
+	CommentCount int           `bson:"comment_count"`
+	ShareCount   int           `bson:"share_count"`
+	IsHidden     bool          `bson:"is_hidden"`
+	IsIllegal    bool          `bson:"is_illegal"`
+	InterTags    types.Array   `bson:"inter_tags"`
+	CreateTime   time.Time     `bson:"create_time"`
 	BaseModel
 }
 
-func (v *Video) getCollection() *mgo.Collection {
-	return database.Mongo.DB("douyin").C("users")
+func (v *Video) FindVideosWithPagination(selector interface{}, page int, size int, sort bson.M) (types2.PaginateResult, error) {
+	v.Name = "videos"
+	return v.findWithPagination(selector, page, size, sort)
 }
-
-func (video *Video) Insert() (id int, err error) {
-	err = video.getCollection().Insert(video)
-	return
-}
-
-func (video *Video) DeleteById() (err error) {
-	err = video.getCollection().RemoveId(video.Id)
-	return
-}
-
-//func findAll(query mgo.Query) (list []Video, err error) {
-//	err = Collection.Find(query).All(&list)
-//	return
-//}
-//
-//func findOne(query mgo.Query) (video Video, err error) {
-//	err = Collection.Find(query).One(&video)
-//	return
-//}

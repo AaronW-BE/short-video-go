@@ -30,7 +30,8 @@ func (u *User) FindAll() (users []User) {
 
 func (u *User) FindOne(selector interface{}) (user User, err error) {
 	u.Name = "users"
-	user, err = u.findOne(selector)
+	doc, err := u.findOne(selector)
+	user = doc.(User)
 	return
 }
 

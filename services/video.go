@@ -2,6 +2,7 @@ package services
 
 import (
 	"MiniVideo/models"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type Video struct {
@@ -10,10 +11,19 @@ type Video struct {
 }
 
 func (video *Video) Insert() (id int, err error) {
-	v := models.Video{
-		Title:       video.Title,
-		Description: video.Description,
-	}
-	id, err = v.Insert()
+
 	return
+}
+
+func FetchRecommendVideos(uid bson.ObjectId) []models.Video {
+	return nil
+}
+
+func FetchHotVideos() (interface{}, error) {
+	v := models.Video{}
+	result, err := v.FindVideosWithPagination(bson.M{}, 1, 5, bson.M{
+		"create_time": -1,
+		"like":        -1,
+	})
+	return result, err
 }

@@ -31,6 +31,7 @@ func Response404(ctx *gin.Context) {
 
 func Response200(ctx *gin.Context, data interface{}, msg string) {
 	Response(ctx, http.StatusOK, data, msg)
+	ctx.Abort()
 }
 
 func Response401(ctx *gin.Context, msg string) {
