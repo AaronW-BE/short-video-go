@@ -48,3 +48,10 @@ func (u *User) Create() (err error) {
 	err = u.create(u)
 	return
 }
+
+func (u *User) UpdateLoginDate() error {
+	u.Name = "users"
+	u.LastLogin = time.Now()
+	err := u.updateById(u.Id, u)
+	return err
+}

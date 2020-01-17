@@ -69,8 +69,8 @@ func (model *BaseModel) update(selector interface{}, update interface{}) error {
 	return model.getCollection().Update(selector, update)
 }
 
-func (model *BaseModel) updateId(id interface{}, update interface{}) error {
-	return model.getCollection().Update(id, update)
+func (model *BaseModel) updateById(id interface{}, update interface{}) error {
+	return model.getCollection().UpdateId(id, update)
 }
 
 func (model *BaseModel) updateAll(selector interface{}, update interface{}) error {

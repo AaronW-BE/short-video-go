@@ -36,6 +36,9 @@ func CommonLogin(context *gin.Context) {
 			Name:  loginUser.Name,
 			State: loginUser.State,
 		})
+
+		_ = loginUser.UpdateLoginDate()
+
 		token, err := jwt.CreateToken(claims)
 		if err != nil {
 			utils.Response500(context, "生成token失败，请稍后再试")
