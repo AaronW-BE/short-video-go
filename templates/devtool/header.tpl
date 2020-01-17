@@ -27,12 +27,36 @@
         .main-container {
             padding: 10px;
         }
+
+        .links-container {
+            margin-left: 20px;
+        }
+        .links-container .link {
+            display: inline-block;
+            color: white;
+            margin-left: 20px;
+            font-size: 20px;
+        }
+        a {
+            color: white;
+        }
     </style>
 </head>
     <header>
         <div class="header-block">
             <img class="brand-logo" src="/favicon.ico" alt="">
             <div class="brand-title">开发控制台</div>
+            <div class="links-container">
+                <div class="link">
+                    <a href="./main">Main</a>
+                </div>
+                <div class="link">
+                    <a href="./user">User</a>
+                </div>
+                <div class="link">
+                    <a href="./cache">Cache</a>
+                </div>
+            </div>
         </div>
     </header>
     <body>

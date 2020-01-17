@@ -1,6 +1,7 @@
 package router
 
 import (
+	"MiniVideo/models"
 	"MiniVideo/utils"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -13,8 +14,11 @@ func InitWebGroup(router *gin.RouterGroup) {
 		})
 	})
 
-	debugGroup := router.Group("/debug")
+	debugGroup := router.Group("/devtool")
 	{
+		debugGroup.GET("/", func(context *gin.Context) {
+			context.Redirect(http.StatusFound, "./main")
+		})
 		debugGroup.GET("/main", func(context *gin.Context) {
 			context.HTML(http.StatusOK, "devtool/main.tpl", gin.H{
 				"title": "开发控制台",
@@ -25,6 +29,15 @@ func InitWebGroup(router *gin.RouterGroup) {
 			context.HTML(http.StatusOK, "devtool/cache.tpl", gin.H{
 				"title":  "开发控制台/Cache",
 				"caches": caches,
+			})
+		})
+
+		debugGroup.GET("/user", func(context *gin.Context) {
+			model := &models.User{}
+			users := model.FindAll()
+			context.HTML(http.StatusOK, "devtool/user.tpl", gin.H{
+				"title": "开发控制台/User",
+				"users": users,
 			})
 		})
 		debugGroup.GET("/log")

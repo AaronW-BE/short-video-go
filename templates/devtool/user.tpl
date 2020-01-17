@@ -1,25 +1,31 @@
-{{ define "devtool/cache.tpl"}}
+{{ define "devtool/user.tpl"}}
     {{template "header" .}}
 
-    <h1>Devtool - Memory Cache</h1>
+    <h1>Devtool - User</h1>
     <div>
-        共有 {{len .caches}} 个 cache
+        共有 {{len .users}} 个 用户
     </div>
     <div class="">
         <table class=" cache-table table table-bordered">
             <thead>
                 <tr class="table-header">
-                    <td>Key</td>
-                    <td>Value</td>
-                    <td>Expiration</td>
+                    <td>Index</td>
+                    <td>Username</td>
+                    <td>Phone</td>
+                    <td>State</td>
+                    <td>Reg Date</td>
+                    <td>Last Login</td>
                 </tr>
             </thead>
             <tbody>
-            {{range $k, $v := .caches}}
+            {{range $k, $v := .users}}
                 <tr>
                     <td>{{$k}}</td>
-                    <td>{{$v.Object}}</td>
-                    <td>{{$v.Expiration}}</td>
+                    <td>{{$v.Username}}</td>
+                    <td>{{$v.Phone}}</td>
+                    <td>{{$v.State}}</td>
+                    <td>{{$v.Register}}</td>
+                    <td>{{$v.LastLogin}}</td>
                 </tr>
             {{end}}
             </tbody>
