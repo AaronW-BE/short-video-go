@@ -28,14 +28,18 @@ func InitApi(api *gin.RouterGroup) {
 		vsg.POST("/publish", controllers.PublishVideo)                                          // 发布视频
 	}
 
+	// 无需登录获取评论
+	vgNoAuth := api.Group("/video")
+	{
+		vgNoAuth.GET("/:id/comments", controllers.GetVideoComments) // 视频id评论
+	}
+
 	vg := api.Group("/video", middlewares.AuthMiddleware())
 	{
 
 		vg.POST("/:id/hide", nil) // 隐藏视频
 
 		vg.POST("/:id/show", nil) // 显示视频
-
-		vg.GET("/:id/comments", nil) // 视频id评论
 
 		vg.DELETE("/:id", nil) // 删除视频
 
@@ -48,8 +52,8 @@ func InitApi(api *gin.RouterGroup) {
 		vg.POST("/:id/like", nil)   // 点赞
 		vg.DELETE("/:id/like", nil) // 取消点赞
 		//
-		vg.POST("/:id/comment", nil)        // 评论视频
-		vg.DELETE("/:id/comment/:cid", nil) // 删除评论
+		vg.POST("/:id/comment", controllers.PublishComment) // 评论视频
+		vg.DELETE("/:id/comment/:cid", nil)                 // 删除评论
 		//
 		vg.POST("/:id/report", nil) // 举报
 	}

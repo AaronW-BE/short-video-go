@@ -3,6 +3,7 @@ package services
 import (
 	"MiniVideo/models"
 	"gopkg.in/mgo.v2/bson"
+	"log"
 )
 
 type Video struct {
@@ -26,4 +27,20 @@ func FetchHotVideos(page int, page_size int) (interface{}, error) {
 		"like":        -1,
 	})
 	return result, err
+}
+
+func VideoExist(id bson.ObjectId) bool {
+	v := models.Video{}
+	v.Name = "videos"
+
+	count, err := v.Find(bson.M{
+		"_id": id,
+	}).Count()
+
+	log.Println(err)
+
+	if err == nil && count > 0 {
+		return true
+	}
+	return false
 }

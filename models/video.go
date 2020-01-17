@@ -25,5 +25,5 @@ type Video struct {
 
 func (v *Video) FindVideosWithPagination(selector interface{}, page int, size int, sort bson.M) (types2.PaginateResult, error) {
 	v.Name = "videos"
-	return v.findWithPagination(selector, page, size, sort, &[]Video{})
+	return v.FindWithPagination(selector, page, size, sort, &[]Video{})
 }

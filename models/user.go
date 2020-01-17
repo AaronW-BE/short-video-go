@@ -45,7 +45,7 @@ func (u *User) Create() (err error) {
 	u.Name = "users"
 	u.State = STATE_NORMAL
 	u.Register = time.Now()
-	err = u.create(u)
+	err = u.__create(u)
 	return
 }
 

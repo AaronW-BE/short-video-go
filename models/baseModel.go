@@ -5,7 +5,6 @@ import (
 	"MiniVideo/types"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	"log"
 )
 
 type BaseModel struct {
@@ -23,8 +22,12 @@ func (m *BaseModel) checkName() {
 	}
 }
 
-func (model *BaseModel) find() {
-	log.Println(*model, "find func")
+func (model *BaseModel) Find(selector interface{}) *mgo.Query {
+	return model.getCollection().Find(selector)
+}
+
+func (model *BaseModel) FindById() {
+
 }
 
 func (model *BaseModel) findAll(docList interface{}) error {
@@ -36,7 +39,7 @@ func (model *BaseModel) findOne(selector interface{}) (doc interface{}, err erro
 	return
 }
 
-func (model *BaseModel) findWithPagination(selector interface{}, page int, size int, sort bson.M, typedSlice interface{}) (result types.PaginateResult, err error) {
+func (model *BaseModel) FindWithPagination(selector interface{}, page int, size int, sort bson.M, typedSlice interface{}) (result types.PaginateResult, err error) {
 	pipeM := []bson.M{
 		{"$match": selector},
 		{"$skip": (page - 1) * size},
@@ -59,7 +62,7 @@ func (model *BaseModel) findWithPagination(selector interface{}, page int, size 
 	return
 }
 
-func (model *BaseModel) create(m interface{}) error {
+func (model *BaseModel) __create(m interface{}) error {
 	return model.getCollection().Insert(m)
 }
 
