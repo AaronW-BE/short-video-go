@@ -9,7 +9,7 @@ import (
 )
 
 type BaseModel struct {
-	Name string
+	Name string `json:"-" bson:"-"`
 }
 
 func (model *BaseModel) getCollection() *mgo.Collection {
@@ -36,7 +36,7 @@ func (model *BaseModel) findOne(selector interface{}) (doc interface{}, err erro
 	return
 }
 
-func (model *BaseModel) findWithPagination(selector interface{}, page int, size int, sort bson.M) (result types.PaginateResult, err error) {
+func (model *BaseModel) findWithPagination(selector interface{}, page int, size int, sort bson.M, typedSlice interface{}) (result types.PaginateResult, err error) {
 	pipeM := []bson.M{
 		{"$match": selector},
 		{"$skip": (page - 1) * size},
@@ -52,9 +52,8 @@ func (model *BaseModel) findWithPagination(selector interface{}, page int, size 
 	}
 
 	// TODO 优化返回列表数据类型
-	//
-
-	err = pipe.All(&result.List)
+	err = pipe.All(typedSlice)
+	result.List = typedSlice
 	count, err := model.getCollection().Find(selector).Count()
 	result.Total = count
 	return

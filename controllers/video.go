@@ -6,6 +6,7 @@ import (
 	"MiniVideo/utils"
 	"github.com/gin-gonic/gin"
 	"log"
+	"strconv"
 )
 
 func PublishVideo(ctx *gin.Context) {
@@ -38,6 +39,12 @@ func PublishVideo(ctx *gin.Context) {
 未登录：每请求一次返回十条视频
 */
 func RecommendVideo(ctx *gin.Context) {
+
+	page := ctx.DefaultQuery("page", "1")
+	page_size := ctx.DefaultQuery("page_size", "5")
+	pageNum, _ := strconv.Atoi(page)
+	pageSizeNum, _ := strconv.Atoi(page_size)
+
 	claims, exists := ctx.Get("claims")
 	isLogin := false
 	if exists {
@@ -51,7 +58,8 @@ func RecommendVideo(ctx *gin.Context) {
 
 		videos = services.FetchRecommendVideos(claimsObj.ID)
 	} else {
-		videos, err := services.FetchHotVideos()
+		log.Println("游客视频推荐")
+		videos, err := services.FetchHotVideos(pageNum, pageSizeNum)
 		if err != nil {
 			log.Println(err)
 			utils.Response500(ctx, err.Error())

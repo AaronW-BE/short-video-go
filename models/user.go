@@ -19,7 +19,7 @@ type User struct {
 	State     int           `bson:"state"`
 	Register  time.Time     `bson:"register"`
 	LastLogin time.Time     `bson:"last_login"`
-	BaseModel `bson:"-"`
+	BaseModel `json:"-" bson:"-"`
 }
 
 func (u *User) FindAll() (users []User) {
@@ -31,7 +31,13 @@ func (u *User) FindAll() (users []User) {
 func (u *User) FindOne(selector interface{}) (user User, err error) {
 	u.Name = "users"
 	doc, err := u.findOne(selector)
-	user = doc.(User)
+	if err != nil {
+		return
+	}
+	d, _ := bson.Marshal(doc)
+	value := User{}
+	_ = bson.Unmarshal(d, &value)
+	user = value
 	return
 }
 
