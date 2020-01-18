@@ -2,12 +2,18 @@ package utils
 
 import (
 	"github.com/shirou/gopsutil/cpu"
+	"github.com/shirou/gopsutil/load"
 	"github.com/shirou/gopsutil/mem"
+	"time"
 )
 
 type SystemInfo struct {
-	CpuAmount int
-	Mem       *mem.VirtualMemoryStat
+	Cpu struct {
+		Cores   int
+		Load    *load.AvgStat
+		Percent []float64
+	}
+	Mem *mem.VirtualMemoryStat
 }
 
 func NewSysInfo() SystemInfo {
@@ -16,10 +22,21 @@ func NewSysInfo() SystemInfo {
 		cpuCount = 0
 	}
 
+	percent, _ := cpu.Percent(time.Second, true)
+
 	memState, err := mem.VirtualMemory()
 
+	loadInfo, _ := load.Avg()
 	return SystemInfo{
-		CpuAmount: cpuCount,
-		Mem:       memState,
+		Cpu: struct {
+			Cores   int
+			Load    *load.AvgStat
+			Percent []float64
+		}{
+			Cores:   cpuCount,
+			Load:    loadInfo,
+			Percent: percent,
+		},
+		Mem: memState,
 	}
 }

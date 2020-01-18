@@ -2,12 +2,12 @@
     {{template "header"}}
         <div class="sys-info-container">
             <div class="info-item">
-                <div class="data">{{.sysInfo.CpuAmount}}</div>
+                <div class="data">{{.sysInfo.Cpu.Cores}}</div>
                 <div class="caption">核心数</div>
             </div>
             <div class="info-item">
-                <div class="data">{{.sysInfo.Mem.Total}}</div>
-                <div class="caption">内存(字节)</div>
+                <div class="data"> {{.sysInfo.Mem.UsedPercent}}%</div>
+                <div class="caption">内存使用</div>
             </div>
         </div>
     {{template "footer" }}
