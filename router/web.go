@@ -20,8 +20,10 @@ func InitWebGroup(router *gin.RouterGroup) {
 			context.Redirect(http.StatusFound, "./main")
 		})
 		debugGroup.GET("/main", func(context *gin.Context) {
+			sysInfo := utils.NewSysInfo()
 			context.HTML(http.StatusOK, "devtool/main.tpl", gin.H{
-				"title": "开发控制台",
+				"title":   "开发控制台",
+				"sysInfo": sysInfo,
 			})
 		})
 		debugGroup.GET("/cache", func(context *gin.Context) {
