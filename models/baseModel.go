@@ -26,8 +26,8 @@ func (model *BaseModel) Find(selector interface{}) *mgo.Query {
 	return model.getCollection().Find(selector)
 }
 
-func (model *BaseModel) FindById() {
-
+func (model *BaseModel) FindById(id interface{}) *mgo.Query {
+	return model.getCollection().FindId(id)
 }
 
 func (model *BaseModel) findAll(docList interface{}) error {

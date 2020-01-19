@@ -49,8 +49,7 @@ func InitApi(api *gin.RouterGroup) {
 
 		//	=========================================================
 		//	互动
-		vg.POST("/:id/like", nil)   // 点赞
-		vg.DELETE("/:id/like", nil) // 取消点赞
+		vg.POST("/:id/like", controllers.VideoLike) // 点赞/取消点赞
 		//
 		vg.POST("/:id/comment", controllers.PublishComment) // 评论视频
 		vg.DELETE("/:id/comment/:cid", nil)                 // 删除评论

@@ -39,3 +39,12 @@ func PublishVideoComment(id string, content string, userId bson.ObjectId) (err e
 
 	return err
 }
+
+func LikeVideo(uid bson.ObjectId, vid bson.ObjectId) error {
+	like := &models.Like{
+		Type: models.LikeType_Video,
+		Uid:  uid,
+		Vid:  vid,
+	}
+	return models.NewLike(like)
+}
