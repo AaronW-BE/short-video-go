@@ -3,8 +3,8 @@ module MiniVideo
 go 1.17
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.7
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/shirou/gopsutil v3.21.10+incompatible
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
