@@ -14,10 +14,10 @@ type JWT struct {
 }
 
 var (
-	TokenExpired     error  = errors.New("Token is expired")
-	TokenNotValidYet error  = errors.New("Token not active yet")
-	TokenMalformed   error  = errors.New("That's not even a token")
-	TokenInvalid     error  = errors.New("Couldn't handle this token:")
+	TokenExpired     error  = errors.New("token is expired")
+	TokenNotValidYet error  = errors.New("token not active yet")
+	TokenMalformed   error  = errors.New("that's not even a token")
+	TokenInvalid     error  = errors.New("couldn't handle this token")
 	SignKey          string = "newtrekWang"
 )
 
